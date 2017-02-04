@@ -1,6 +1,6 @@
 Gangs
 ===================
-__[@ConflictPE](https://gihub.com/ConflictPE)'s Gangs plugin__
+__[@ConflictPE](https://github.com/ConflictPE)'s Gangs plugin__
 
 _You may contribute to this plugin via a pull request, any direct commits will be reverted/deleted._
 
