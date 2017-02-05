@@ -18,23 +18,97 @@
 
 namespace conflict\gangs\command;
 
+use conflict\gangs\command\formattable\argument\CommandArgument;
 use conflict\gangs\Gangs;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\command\PluginIdentifiableCommand;
+use pocketmine\utils\TextFormat;
 
 abstract class GangsCommand extends Command implements PluginIdentifiableCommand {
 
 	/** @var Gangs */
 	private $plugin = null;
 
+	/** @var CommandArgument[] */
+	private $arguments;
+
 	public function __construct(Gangs $plugin, $name, $description = "", $usageMessage = null, $aliases = []) {
 		$this->plugin = $plugin;
 		parent::__construct($name, $description, $usageMessage, $aliases);
+		$this->registerDefaultArguments();
+		$this->updateCommandData();
+		var_dump($this->commandData);
 	}
 
 	public function getPlugin() : Gangs {
 		return $this->plugin;
+	}
+
+	public function sendUsage(CommandSender $sender) {
+		$sender->sendMessage(TextFormat::RED . "Usage: " . TextFormat::GOLD . $this->getUsage());
+	}
+
+	public function getDefaultArguments() : array {
+		return [];
+	}
+
+	private function registerDefaultArguments() {
+		foreach($this->getDefaultArguments() as $argument) {
+			$this->registerArgument($argument);
+		}
+	}
+
+	public function registerArgument(CommandArgument $argument) {
+		if(!isset($this->arguments[$argument->getName()])) {
+			$this->arguments[$argument->getName()] = $argument;
+			foreach($argument->getAliases() as $alias) {
+				if(!isset($this->arguments[$alias])) {
+					$this->arguments[$alias] = $argument;
+				} else {
+					$this->plugin->getLogger()->notice("{$this->getName()} attempted to register an argument alias when one already exists! Command: {$this->getName()} Alias: '{$alias}'!");
+				}
+			}
+		} else {
+			$this->getPlugin()->getLogger()->notice("Attempted to register an argument that already exists! Command: {$this->getName()} Argument: {$argument->getName()}");
+		}
+	}
+
+	/**
+	 * @return CommandArgument[]
+	 */
+	public function getArguments() : array {
+		return $this->arguments;
+	}
+
+	/**
+	 * @param string $name
+	 *
+	 * @return CommandArgument|null
+	 */
+	public function getArgument($name) {
+		return $this->arguments[$name] ?? null;
+	}
+
+	protected function updateCommandData() {
+		if(!isset($this->commandData->overloads)) {
+			$this->commandData->overloads = new \stdClass();
+		} else {
+			unset($this->commandData->overloads->default);
+		}
+		foreach($this->getArguments() as $argument) {
+			$i = 0;
+			$this->commandData->overloads->{$argument->getName()} = new \stdClass();
+			$this->commandData->overloads->{$argument->getName()}->input = new \stdClass();
+			$this->commandData->overloads->{$argument->getName()}->input->parameters = [];
+			foreach($argument->getList()->getList() as $format) {
+				$this->commandData->overloads->{$argument->getName()}->input->parameters[$i] = new \stdClass();
+				$this->commandData->overloads->{$argument->getName()}->input->parameters[$i]->name = $format->getName();
+				$this->commandData->overloads->{$argument->getName()}->input->parameters[$i]->type = $format->getFormat();
+				$this->commandData->overloads->{$argument->getName()}->input->parameters[$i]->optional = $format->isOptional();
+				$i++;
+			}
+		}
 	}
 
 	/**

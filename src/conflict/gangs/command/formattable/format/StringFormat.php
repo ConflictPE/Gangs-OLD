@@ -23,7 +23,7 @@ use conflict\gangs\command\formattable\FormattableArgument;
 
 class StringFormat extends FormattableArgument {
 
-	public function __construct(string $format, string $name = "", bool $optional = false) {
+	public function __construct(string $name = "", bool $optional = false) {
 		parent::__construct(Formattable::FORMAT_STRING, $name, $optional);
 	}
 

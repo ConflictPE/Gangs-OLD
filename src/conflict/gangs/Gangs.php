@@ -18,6 +18,7 @@
 
 namespace conflict\gangs;
 
+use conflict\gangs\command\formattable\GangsCommandMap;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
 
@@ -26,10 +27,14 @@ class Gangs extends PluginBase {
 	/** @var Config */
 	private $settings = null;
 
+	/** @var GangsCommandMap */
+	private $commandMap = null;
+
 	const SETTINGS_FILE = "Settings.yml";
 
 	public function onEnable() {
 		$this->loadConfigs();
+		$this->setCommandMap();
 	}
 
 	/**
@@ -42,6 +47,20 @@ class Gangs extends PluginBase {
 
 	public function getSettings() : Config {
 		return $this->settings;
+	}
+
+	/**
+	 * Set the command map
+	 */
+	public function setCommandMap() {
+		$this->commandMap = new GangsCommandMap($this);
+	}
+
+	/**
+	 * @return GangsCommandMap
+	 */
+	public function getCommandMap() {
+		return $this->commandMap;
 	}
 
 }
