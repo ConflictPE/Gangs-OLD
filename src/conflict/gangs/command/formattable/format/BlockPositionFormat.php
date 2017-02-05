@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Gangs – IntFormat.php
+ * Gangs – BlockPositionFormat.php
  *
  * Copyright (C) 2017 Jack Noordhuis
  *
@@ -12,19 +12,19 @@
  *
  * @author JackNoordhuis
  *
- * Created on 05/02/2017 at 5:36 PM
+ * Created on 05/02/2017 at 5:43 PM
  *
  */
 
-namespace conflict\gangs\command\formattable\formats;
+namespace conflict\gangs\command\formattable\format;
 
 use conflict\gangs\command\formattable\Formattable;
 use conflict\gangs\command\formattable\FormattableArgument;
 
-class IntFormat extends FormattableArgument {
+class BlockPositionFormat extends FormattableArgument {
 
-	public function __construct(string $format, string $name = "", bool $optional = false) {
-		parent::__construct(Formattable::FORMAT_INT, $name, $optional);
+	public function __construct(string $format, string $name = "", $optional = false) {
+		parent::__construct(Formattable::FORMAT_BLOCK_POSITION, $name, $optional);
 	}
 
 }

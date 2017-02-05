@@ -16,7 +16,7 @@
  *
  */
 
-namespace conflict\gangs\command\formattable\formats;
+namespace conflict\gangs\command\formattable\format;
 
 use conflict\gangs\command\formattable\Formattable;
 use conflict\gangs\command\formattable\FormattableArgument;

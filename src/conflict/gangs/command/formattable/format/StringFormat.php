@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Gangs – RawTextFormat.php
+ * Gangs – StringFormat.php
  *
  * Copyright (C) 2017 Jack Noordhuis
  *
@@ -12,19 +12,19 @@
  *
  * @author JackNoordhuis
  *
- * Created on 05/02/2017 at 5:33 PM
+ * Created on 05/02/2017 at 5:17 PM
  *
  */
 
-namespace conflict\gangs\command\formattable\formats;
+namespace conflict\gangs\command\formattable\format;
 
 use conflict\gangs\command\formattable\Formattable;
 use conflict\gangs\command\formattable\FormattableArgument;
 
-class RawTextFormat extends FormattableArgument {
+class StringFormat extends FormattableArgument {
 
-	public function __construct(string $format, string $name = "", $optional = false) {
-		parent::__construct(Formattable::FORMAT_RAW_TEXT, $name, $optional);
+	public function __construct(string $format, string $name = "", bool $optional = false) {
+		parent::__construct(Formattable::FORMAT_STRING, $name, $optional);
 	}
 
 }
