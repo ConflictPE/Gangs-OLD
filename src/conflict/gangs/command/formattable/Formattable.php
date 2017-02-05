@@ -23,13 +23,13 @@ namespace conflict\gangs\command\formattable;
  */
 interface Formattable {
 
-	const FORMAT_STRING = 0;
-	const FORMAT_STRING_ENUM = 1;
-	const FORMAT_RAW_TEXT = 2;
-	const FORMAT_INT = 3;
-	const FORMAT_TARGET = 4;
-	const FORMAT_BLOCK_POSITION = 5;
+	const FORMAT_STRING = "string";
+	const FORMAT_STRING_ENUM = "stringenum";
+	const FORMAT_RAW_TEXT = "rawtext";
+	const FORMAT_INT = "int";
+	const FORMAT_TARGET = "target";
+	const FORMAT_BLOCK_POSITION = "blockpos";
 
-	public function getFormat() : int;
+	public function getFormat() : string;
 
 }

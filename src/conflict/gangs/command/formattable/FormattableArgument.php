@@ -18,17 +18,49 @@
 
 namespace conflict\gangs\command\formattable;
 
-class FormattableArgument implements Formattable {
+abstract class FormattableArgument implements Formattable {
 
-	/** @var int */
-	private $formatId = self::FORMAT_STRING;
+	/** @var string */
+	private $formatId = Formattable::FORMAT_STRING;
 
-	public function __construct(int $format) {
+	/** @var string */
+	protected $name;
+
+	/** @var bool */
+	protected $optional;
+
+	public function __construct(string $format, string $name = "", $optional = false) {
 		$this->formatId = $format;
+		$this->name = $name;
+		$this->optional = $optional;
 	}
 
-	public function getFormat() : int {
+	public final function getFormat() : string {
 		return $this->formatId;
+	}
+
+	public final function getName() : string {
+		return $this->name;
+	}
+
+	public final function isOptional() : bool {
+		return $this->optional;
+	}
+
+	public function setOption(bool$value = true) {
+		$this->optional = $value;
+	}
+
+	/**
+	 * Get the formatted arguments data and prepare it for the client
+	 *
+	 * @return array
+	 */
+	public function parse() : array {
+		return [
+			"name" => $this->name,
+			"type" => $this->formatId,
+		];
 	}
 
 }
