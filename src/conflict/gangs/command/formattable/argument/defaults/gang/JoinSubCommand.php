@@ -28,7 +28,6 @@ class JoinSubCommand extends CommandArgument {
 
 	public function __construct(GangsCommand $owner) {
 		parent::__construct($owner, "join", new CommandArgumentList($this, [
-			new StringFormat("join"),
 			new StringFormat("name")
 		]), "/gang join <name>", ["request"]);
 	}

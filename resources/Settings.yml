@@ -4,3 +4,6 @@ settings:
   # Implemented: JSON
   # TODO: MySQL, SQLite, YAML
   provier: json
+  #
+  # Saves startup time, remember to delete the cache after an update to the commands
+  cach-command-data: true

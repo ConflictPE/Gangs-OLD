@@ -18,7 +18,7 @@
 
 namespace conflict\gangs;
 
-use conflict\gangs\command\formattable\GangsCommandMap;
+use conflict\gangs\command\GangsCommandMap;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
 
@@ -35,6 +35,7 @@ class Gangs extends PluginBase {
 	public function onEnable() {
 		$this->loadConfigs();
 		$this->setCommandMap();
+		$this->commandMap->setDefaultCommands();
 	}
 
 	/**

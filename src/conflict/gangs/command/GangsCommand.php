@@ -23,6 +23,7 @@ use conflict\gangs\Gangs;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\command\PluginIdentifiableCommand;
+use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 
 abstract class GangsCommand extends Command implements PluginIdentifiableCommand {
@@ -37,8 +38,6 @@ abstract class GangsCommand extends Command implements PluginIdentifiableCommand
 		$this->plugin = $plugin;
 		parent::__construct($name, $description, $usageMessage, $aliases);
 		$this->registerDefaultArguments();
-		$this->updateCommandData();
-		var_dump($this->commandData);
 	}
 
 	public function getPlugin() : Gangs {
@@ -90,25 +89,40 @@ abstract class GangsCommand extends Command implements PluginIdentifiableCommand
 		return $this->arguments[$name] ?? null;
 	}
 
-	protected function updateCommandData() {
-		if(!isset($this->commandData->overloads)) {
-			$this->commandData->overloads = new \stdClass();
+	public function generateCustomCommandData(Player $player) {
+
+		$customData = parent::generateCustomCommandData($player);
+		$cached = $this->plugin->getCommandMap()->getFromCache($this);
+		if($this->plugin->getCommandMap()->useCache() and $cached !== null) {
+			$customData = $cached;
 		} else {
-			unset($this->commandData->overloads->default);
-		}
-		foreach($this->getArguments() as $argument) {
-			$i = 0;
-			$this->commandData->overloads->{$argument->getName()} = new \stdClass();
-			$this->commandData->overloads->{$argument->getName()}->input = new \stdClass();
-			$this->commandData->overloads->{$argument->getName()}->input->parameters = [];
-			foreach($argument->getList()->getList() as $format) {
-				$this->commandData->overloads->{$argument->getName()}->input->parameters[$i] = new \stdClass();
-				$this->commandData->overloads->{$argument->getName()}->input->parameters[$i]->name = $format->getName();
-				$this->commandData->overloads->{$argument->getName()}->input->parameters[$i]->type = $format->getFormat();
-				$this->commandData->overloads->{$argument->getName()}->input->parameters[$i]->optional = $format->isOptional();
-				$i++;
+			if(!isset($customData->overloads)) {
+				$customData->overloads = new \stdClass();
+			} else {
+				unset($customData->overloads->default);
+			}
+			foreach($this->getArguments() as $argument) {
+				$i = 0;
+				$customData->overloads->{$argument->getName()} = new \stdClass();
+				$customData->overloads->{$argument->getName()}->input = new \stdClass();
+				$customData->overloads->{$argument->getName()}->input->parameters = [];
+				$customData->overloads->{$argument->getName()}->input->parameters[$i] = new \stdClass();
+				$customData->overloads->{$argument->getName()}->input->parameters[$i]->name = $argument->getName();
+				$customData->overloads->{$argument->getName()}->input->parameters[$i]->type = "string";
+				$customData->overloads->{$argument->getName()}->input->parameters[$i]->optional = false;
+				foreach($argument->getList()->getList() as $format) {
+					$i++;
+					$customData->overloads->{$argument->getName()}->input->parameters[$i] = new \stdClass();
+					$customData->overloads->{$argument->getName()}->input->parameters[$i]->name = $format->getName();
+					$customData->overloads->{$argument->getName()}->input->parameters[$i]->type = $format->getFormat();
+					$customData->overloads->{$argument->getName()}->input->parameters[$i]->optional = $format->isOptional();
+				}
+			}
+			if($this->plugin->getCommandMap()->useCache()) {
+				$this->plugin->getCommandMap()->cache($this, $customData);
 			}
 		}
+		return $customData;
 	}
 
 	/**

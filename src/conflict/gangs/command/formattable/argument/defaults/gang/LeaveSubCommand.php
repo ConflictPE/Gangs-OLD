@@ -20,16 +20,13 @@ namespace conflict\gangs\command\formattable\argument\defaults\gang;
 
 use conflict\gangs\command\formattable\argument\CommandArgument;
 use conflict\gangs\command\formattable\argument\CommandArgumentList;
-use conflict\gangs\command\formattable\format\StringFormat;
 use conflict\gangs\command\GangsCommand;
 use pocketmine\command\CommandSender;
 
 class LeaveSubCommand extends CommandArgument {
 
 	public function __construct(GangsCommand $owner) {
-		parent::__construct($owner, "leave", new CommandArgumentList($this, [
-			new StringFormat("leave")
-		]), "/gang leave", ["quit"]);
+		parent::__construct($owner, "leave", new CommandArgumentList($this, []), "/gang leave", ["quit"]);
 	}
 
 	public function execute(CommandSender $sender, array $args = []) {

@@ -16,11 +16,12 @@
  *
  */
 
-namespace conflict\gangs\command\formattable;
+namespace conflict\gangs\command;
 
 use conflict\gangs\command\defaults\GangCommand;
 use conflict\gangs\command\GangsCommand;
 use conflict\gangs\Gangs;
+use pocketmine\scheduler\FileWriteTask;
 
 class GangsCommandMap {
 
@@ -30,6 +31,12 @@ class GangsCommandMap {
 	/** @var $plugin */
 	private $plugin;
 
+	/** @var bool */
+	private $useCache = true;
+
+	/** @var array */
+	private $cache = null;
+
 	/**
 	 * CommandMap constructor
 	 *
@@ -37,7 +44,8 @@ class GangsCommandMap {
 	 */
 	public function __construct(Gangs $plugin) {
 		$this->plugin = $plugin;
-		$this->setDefaultCommands();
+		$this->useCache = $plugin->getSettings()->getNested("settings.cache-command-data", true);
+		$this->cache = $this->useCache() ? $this->loadCache() : new \stdClass();
 	}
 
 	/**
@@ -47,13 +55,50 @@ class GangsCommandMap {
 		$this->registerAll([
 			new GangCommand($this->plugin)
 		]);
+		$this->saveCache(true);
+	}
+
+	public function getPlugin() : Gangs {
+		return $this->plugin;
+	}
+
+	public function useCache() : bool {
+		return $this->useCache;
+	}
+
+	private function loadCache() {
+		if(!is_file($this->plugin->getDataFolder() . "command_cache.json")) {
+			touch($this->plugin->getDataFolder() . "command_cache.json");
+			return new \stdClass();
+		}
+		return json_decode($this->plugin->getDataFolder() . "command_cache.json");
+	}
+
+	public function cache(GangsCommand $command, \stdClass $data) {
+		$this->cache->{strtolower($command->getName())} = $data;
 	}
 
 	/**
-	 * @return Gangs
+	 * @param GangsCommand $command
+	 *
+	 * @return null
 	 */
-	public function getPlugin() {
-		return $this->plugin;
+	public function getFromCache(GangsCommand $command) {
+		$key = strtolower($command->getName());
+		if(isset($this->cache->{$key})) {
+			return $this->cache->{$key};
+		}
+		return null;
+	}
+
+	public function saveCache($async = true) {
+		$data = json_encode($this->cache);
+		$path = $this->getPlugin()->getDataFolder() . "command_cache.json";
+		if($async) {
+			$this->plugin->getServer()->getScheduler()->scheduleAsyncTask(new FileWriteTask($path, $data));
+		} else {
+			file_put_contents($path, $data);
+		}
 	}
 
 	/**
@@ -98,7 +143,6 @@ class GangsCommandMap {
 	 * @param GangsCommand $command
 	 */
 	public function unregister(GangsCommand $command) {
-		//$this->plugin->getServer()->getCommandMap()->unregister($command);
 		unset($this->commands[strtolower($command->getName())]);
 	}
 
@@ -129,6 +173,7 @@ class GangsCommandMap {
 
 	public function close() {
 		foreach($this->commands as $command) {
+			$this->saveCache(false);
 			$this->unregister($command);
 		}
 		unset($this->commands, $this->plugin);

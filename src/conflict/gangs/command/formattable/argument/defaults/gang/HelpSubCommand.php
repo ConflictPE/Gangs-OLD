@@ -21,7 +21,6 @@ namespace conflict\gangs\command\formattable\argument\defaults\gang;
 use conflict\gangs\command\formattable\argument\CommandArgument;
 use conflict\gangs\command\formattable\argument\CommandArgumentList;
 use conflict\gangs\command\formattable\format\IntFormat;
-use conflict\gangs\command\formattable\format\StringFormat;
 use conflict\gangs\command\GangsCommand;
 use pocketmine\command\CommandSender;
 
@@ -29,7 +28,6 @@ class HelpSubCommand extends CommandArgument {
 
 	public function __construct(GangsCommand $owner) {
 		parent::__construct($owner, "help", new CommandArgumentList($this, [
-			new StringFormat("help"),
 			new IntFormat("page", true)
 		]), "/help [page]", ["h"]);
 	}

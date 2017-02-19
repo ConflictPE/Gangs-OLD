@@ -28,7 +28,6 @@ class CreateSubCommand extends CommandArgument {
 
 	public function __construct(GangsCommand $owner) {
 		parent::__construct($owner, "create", new CommandArgumentList($this, [
-			new StringFormat("create"),
 			new StringFormat("name")
 		]), "/gang create <name>", ["new", "open"]);
 	}
