@@ -18,11 +18,11 @@
 
 namespace conflict\gangs\command\defaults;
 
-use conflict\gangs\command\formattable\argument\CommandArgument;
-use conflict\gangs\command\formattable\argument\defaults\gang\CreateSubCommand;
-use conflict\gangs\command\formattable\argument\defaults\gang\HelpSubCommand;
-use conflict\gangs\command\formattable\argument\defaults\gang\JoinSubCommand;
-use conflict\gangs\command\formattable\argument\defaults\gang\LeaveSubCommand;
+use conflict\gangs\command\argument\CommandArgument;
+use conflict\gangs\command\argument\defaults\gang\CreateSubCommand;
+use conflict\gangs\command\argument\defaults\gang\HelpSubCommand;
+use conflict\gangs\command\argument\defaults\gang\JoinSubCommand;
+use conflict\gangs\command\argument\defaults\gang\LeaveSubCommand;
 use conflict\gangs\command\UniversalGangsCommand;
 use conflict\gangs\Gangs;
 use pocketmine\command\CommandSender;

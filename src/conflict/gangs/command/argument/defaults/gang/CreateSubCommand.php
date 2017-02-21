@@ -16,20 +16,16 @@
  *
  */
 
-namespace conflict\gangs\command\formattable\argument\defaults\gang;
+namespace conflict\gangs\command\argument\defaults\gang;
 
-use conflict\gangs\command\formattable\argument\CommandArgument;
-use conflict\gangs\command\formattable\argument\CommandArgumentList;
-use conflict\gangs\command\formattable\format\StringFormat;
+use conflict\gangs\command\argument\CommandArgument;
 use conflict\gangs\command\GangsCommand;
 use pocketmine\command\CommandSender;
 
 class CreateSubCommand extends CommandArgument {
 
 	public function __construct(GangsCommand $owner) {
-		parent::__construct($owner, "create", new CommandArgumentList($this, [
-			new StringFormat("name")
-		]), "/gang create <name>", ["new", "open"]);
+		parent::__construct($owner, "create", "/gang create <name>", ["new", "open"]);
 	}
 
 	public function execute(CommandSender $sender, array $args = []) {

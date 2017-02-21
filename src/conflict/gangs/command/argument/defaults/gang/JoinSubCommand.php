@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Gangs – HelpSubCommand.php
+ * Gangs – JoinSubCommand.php
  *
  * Copyright (C) 2017 Jack Noordhuis
  *
@@ -12,24 +12,20 @@
  *
  * @author JackNoordhuis
  *
- * Created on 05/02/2017 at 9:35 PM
+ * Created on 05/02/2017 at 9:11 PM
  *
  */
 
-namespace conflict\gangs\command\formattable\argument\defaults\gang;
+namespace conflict\gangs\command\argument\defaults\gang;
 
-use conflict\gangs\command\formattable\argument\CommandArgument;
-use conflict\gangs\command\formattable\argument\CommandArgumentList;
-use conflict\gangs\command\formattable\format\IntFormat;
+use conflict\gangs\command\argument\CommandArgument;
 use conflict\gangs\command\GangsCommand;
 use pocketmine\command\CommandSender;
 
-class HelpSubCommand extends CommandArgument {
+class JoinSubCommand extends CommandArgument {
 
 	public function __construct(GangsCommand $owner) {
-		parent::__construct($owner, "help", new CommandArgumentList($this, [
-			new IntFormat("page", true)
-		]), "/help [page]", ["h"]);
+		parent::__construct($owner, "join", "/gang join <name>", ["request"]);
 	}
 
 	public function execute(CommandSender $sender, array $args = []) {

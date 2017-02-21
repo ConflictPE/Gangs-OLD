@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Gangs – JoinSubCommand.php
+ * Gangs – LeaveSubCommand.php
  *
  * Copyright (C) 2017 Jack Noordhuis
  *
@@ -12,29 +12,25 @@
  *
  * @author JackNoordhuis
  *
- * Created on 05/02/2017 at 9:11 PM
+ * Created on 05/02/2017 at 9:33 PM
  *
  */
 
-namespace conflict\gangs\command\formattable\argument\defaults\gang;
+namespace conflict\gangs\command\argument\defaults\gang;
 
-use conflict\gangs\command\formattable\argument\CommandArgument;
-use conflict\gangs\command\formattable\argument\CommandArgumentList;
-use conflict\gangs\command\formattable\format\StringFormat;
+use conflict\gangs\command\argument\CommandArgument;
 use conflict\gangs\command\GangsCommand;
 use pocketmine\command\CommandSender;
 
-class JoinSubCommand extends CommandArgument {
+class LeaveSubCommand extends CommandArgument {
 
 	public function __construct(GangsCommand $owner) {
-		parent::__construct($owner, "join", new CommandArgumentList($this, [
-			new StringFormat("name")
-		]), "/gang join <name>", ["request"]);
+		parent::__construct($owner, "leave", "/gang leave", ["quit"]);
 	}
 
 	public function execute(CommandSender $sender, array $args = []) {
 		if(isset($args[0])) {
-			$sender->sendMessage("Joining {$args[0]} gang...");
+			$sender->sendMessage("Leaving gang...");
 		} else {
 			$this->sendUsage($sender);
 		}

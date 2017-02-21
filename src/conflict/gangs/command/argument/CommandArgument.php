@@ -16,13 +16,13 @@
  *
  */
 
-namespace conflict\gangs\command\formattable\argument;
+namespace conflict\gangs\command\argument;
 
 use conflict\gangs\command\GangsCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat;
 
-abstract class CommandArgument implements FormattableCommandArgument {
+abstract class CommandArgument {
 
 	/** @var GangsCommand */
 	private $owner = null;
@@ -30,19 +30,15 @@ abstract class CommandArgument implements FormattableCommandArgument {
 	/** @var string */
 	private $name;
 
-	/** @var CommandArgumentList */
-	private $list;
-
 	/** @var string */
 	private $usage;
 
 	/** @var array */
 	private $aliases;
 
-	public function __construct(GangsCommand $owner, string $name, CommandArgumentList $list, string $usage = "", array $aliases = []) {
+	public function __construct(GangsCommand $owner, string $name, string $usage = "", array $aliases = []) {
 		$this->owner = $owner;
 		$this->name = $name;
-		$this->list = $list;
 		$this->usage = $usage;
 		$this->aliases = $aliases;
 	}
@@ -53,10 +49,6 @@ abstract class CommandArgument implements FormattableCommandArgument {
 
 	public function getName() : string {
 		return $this->name;
-	}
-
-	public function getList() : CommandArgumentList {
-		return $this->list;
 	}
 
 	public function getUsage() : string {
