@@ -25,14 +25,26 @@ use conflict\gangs\Gangs;
  */
 abstract class DummyProvider implements BaseProviderInterface {
 
+	/** @var Gangs */
 	private $plugin;
 
-	public function __construct(Gangs $plugin) {
+	/** @var DummyCredentials */
+	private $credentials;
+
+	public function __construct(Gangs $plugin, DummyCredentials $credentials) {
 		$this->plugin = $plugin;
+		$this->credentials = $credentials;
 	}
 
 	public function getPlugin() : Gangs {
 		return $this->plugin;
+	}
+
+	/**
+	 * @return DummyCredentials
+	 */
+	public function getCredentials() {
+		return $this->credentials;
 	}
 
 	protected abstract function init();
