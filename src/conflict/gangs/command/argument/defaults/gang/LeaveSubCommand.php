@@ -25,7 +25,7 @@ use pocketmine\command\CommandSender;
 class LeaveSubCommand extends CommandArgument {
 
 	public function __construct(GangsCommand $owner) {
-		parent::__construct($owner, "leave", "/gang leave", ["quit"]);
+		parent::__construct($owner, "leave", "/gang leave", "Leave your current gang", ["quit"]);
 	}
 
 	public function execute(CommandSender $sender, array $args = []) {

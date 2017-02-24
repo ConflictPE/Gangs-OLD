@@ -30,7 +30,7 @@ use pocketmine\command\CommandSender;
 class GangCommand extends UniversalGangsCommand {
 
 	public function __construct(Gangs $plugin) {
-		parent::__construct($plugin, "gang", "Main Gangs command", "/gang <create|join|leave|help>", ["g", "gangs"]);
+		parent::__construct($plugin, "gang", "Main Gangs command", "/gang <create|leave|help>", ["g", "gangs"]);
 	}
 
 	public final function getDefaultArguments() : array {

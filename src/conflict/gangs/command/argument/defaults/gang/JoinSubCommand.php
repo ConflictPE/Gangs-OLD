@@ -25,7 +25,7 @@ use pocketmine\command\CommandSender;
 class JoinSubCommand extends CommandArgument {
 
 	public function __construct(GangsCommand $owner) {
-		parent::__construct($owner, "join", "/gang join <name>", ["request"]);
+		parent::__construct($owner, "join", "/gang join <name>", "Request to join a gang", ["request"]);
 	}
 
 	public function execute(CommandSender $sender, array $args = []) {

@@ -25,7 +25,7 @@ use pocketmine\command\CommandSender;
 class CreateSubCommand extends CommandArgument {
 
 	public function __construct(GangsCommand $owner) {
-		parent::__construct($owner, "create", "/gang create <name>", ["new", "open"]);
+		parent::__construct($owner, "create", "/gang create <name>", "Create a new gang", ["new", "open"]);
 	}
 
 	public function execute(CommandSender $sender, array $args = []) {

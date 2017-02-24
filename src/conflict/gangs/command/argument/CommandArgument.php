@@ -33,13 +33,17 @@ abstract class CommandArgument {
 	/** @var string */
 	private $usage;
 
+	/** @var string */
+	private $description;
+
 	/** @var array */
 	private $aliases;
 
-	public function __construct(GangsCommand $owner, string $name, string $usage = "", array $aliases = []) {
+	public function __construct(GangsCommand $owner, string $name, string $usage = "", $description = "", array $aliases = []) {
 		$this->owner = $owner;
 		$this->name = $name;
 		$this->usage = $usage;
+		$this->description = $description;
 		$this->aliases = $aliases;
 	}
 
@@ -53,6 +57,10 @@ abstract class CommandArgument {
 
 	public function getUsage() : string {
 		return $this->usage;
+	}
+
+	public function getDescription() : string {
+		return $this->description;
 	}
 
 	public function getAliases() : array {
